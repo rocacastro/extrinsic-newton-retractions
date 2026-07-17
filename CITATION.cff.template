@@ -1,0 +1,39 @@
+cff-version: 1.2.0
+message: "Please cite this repository and the associated article."
+title: "Extrinsic Newton methods with retractions"
+type: software
+version: "1.1.0"
+date-released: "YYYY-MM-DD"
+authors:
+  - family-names: "Castro Marín"
+    given-names: "Rodrigo Alberto"
+    email: "rodrigo.castrom@uv.cl"
+    affiliation: "Institute of Mathematics, Universidad de Valparaíso, Valparaíso, Chile"
+  - family-names: "San Martín"
+    given-names: "Leslie"
+    email: "l.sanmartindonoso1@uandresbello.edu"
+    affiliation: "Institute of Mathematics, Universidad de Valparaíso, Valparaíso, Chile"
+repository-code: "https://github.com/OWNER/REPOSITORY"
+url: "https://github.com/OWNER/REPOSITORY"
+abstract: >-
+  Reproducible Python implementations, numerical results, diagnostics, and
+  English supplementary material accompanying an article on extrinsic Newton methods with first-order
+  retractions on regular level-set submanifolds.
+keywords:
+  - Newton method
+  - Riemannian manifold
+  - retraction
+  - regular level set
+  - Stiefel manifold
+license: "TO BE CHOSEN"
+preferred-citation:
+  type: article
+  title: "Extrinsic Newton method with retractions for zeros of vector fields on regular level-set submanifolds"
+  authors:
+    - family-names: "Castro Marín"
+      given-names: "Rodrigo Alberto"
+    - family-names: "San Martín"
+      given-names: "Leslie"
+  journal: "TO BE COMPLETED"
+  year: "TO BE COMPLETED"
+  doi: "TO BE COMPLETED"

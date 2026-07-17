@@ -1,0 +1,24 @@
+{
+  "date_utc": "2026-07-16T00:18:43.319220+00:00",
+  "python": "3.13.5 (main, May  5 2026, 21:05:52) [GCC 14.2.0]",
+  "mpmath": "1.3.0",
+  "platform": "Linux-4.4.0-x86_64-with-glibc2.41",
+  "architecture": "x86_64",
+  "processor": "unknown",
+  "multiprecision": {
+    "dps": 1200,
+    "tolerance": "1.0e-500",
+    "repetitions": 3,
+    "method_order": "alternating",
+    "statistic": "median cumulative time per iteration and final MAD"
+  },
+  "moderate_precision_timings": {
+    "dps": 50,
+    "tolerance": "1.0e-14",
+    "warmups": 2,
+    "repetitions": 11,
+    "method_order": "alternating",
+    "statistic": "median and MAD of total time"
+  },
+  "clock": "time.perf_counter"
+}
