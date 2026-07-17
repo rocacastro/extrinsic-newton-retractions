@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this software or its numerical results, please cite this repository."
+title: "Extrinsic Newton Methods with Retractions: Reproducibility Code and Supplementary Material"
+type: software
+version: 1.0.0
+date-released: 2026-07-17
+license: BSD-3-Clause
+
+authors:
+  - family-names: "Castro Marín"
+    given-names: "Rodrigo Alberto"
+    email: "rodrigo.castrom@uv.cl"
+    affiliation: "Institute of Mathematics, Universidad de Valparaíso, Valparaíso, Chile"
+
+  - family-names: "San Martín"
+    given-names: "Leslie"
+    email: "l.sanmartindonoso1@uandresbello.edu"
+    affiliation: "Institute of Mathematics, Universidad de Valparaíso, Valparaíso, Chile"
+
+repository-code: "https://github.com/rocacastro/extrinsic-newton-retractions"
+url: "https://github.com/rocacastro/extrinsic-newton-retractions"
