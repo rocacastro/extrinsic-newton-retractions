@@ -1,6 +1,8 @@
 cff-version: 1.2.0
-message: "If you use this software or its numerical results, please cite this repository."
-title: "Extrinsic Newton Methods with Retractions: Reproducibility Code and Supplementary Material"
+message: "If you use this software, its numerical results, or the supplementary material, please cite this repository."
+
+title: "Extrinsic Newton Method with Retractions for Zeros of Vector Fields on Regular Level-Set Submanifolds: Reproducibility Code and Supplementary Material"
+
 type: software
 version: 1.0.0
 date-released: 2026-07-17
@@ -19,3 +21,17 @@ authors:
 
 repository-code: "https://github.com/rocacastro/extrinsic-newton-retractions"
 url: "https://github.com/rocacastro/extrinsic-newton-retractions"
+
+abstract: >
+  Reproducible Python implementations, numerical results, diagnostics,
+  and English supplementary material accompanying a study of extrinsic
+  Newton methods with first-order retractions on regular level-set
+  submanifolds.
+
+keywords:
+  - Newton method
+  - Riemannian manifold
+  - retraction
+  - regular level set
+  - Stiefel manifold
+  - numerical reproducibility
