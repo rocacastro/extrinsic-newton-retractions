@@ -1,0 +1,1329 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english,provide=*]{babel}
+\usepackage[a4paper,margin=2.6cm]{geometry}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsfonts,mathtools}
+\usepackage{booktabs,tabularx,array}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
+\hypersetup{
+  pdftitle={Online Resource 1 - Supplementary Information for Extrinsic Newton Method with Retractions for Zeros of Vector Fields on Regular Level-Set Submanifolds},
+  pdfauthor={Rodrigo Alberto Castro Marin and Leslie San Martin},
+  pdfsubject={Supplementary Information for Calcolo}
+}
+\usepackage[capitalize,nameinlink]{cleveref}
+\crefname{table}{table}{tables}
+\Crefname{table}{Table}{Tables}
+\crefname{equation}{equation}{equations}
+\Crefname{equation}{Equation}{Equations}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\T}{\mathrm{T}}
+\newcommand{\D}{\mathrm{D}}
+\newcommand{\Proj}{\mathrm{P}}
+\newcommand{\Exp}{\mathrm{Exp}}
+\newcommand{\Retr}{\mathrm{R}}
+\newcommand{\PT}{\mathcal{P}}
+\DeclareMathOperator{\sym}{sym}
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\thesubsection}{S\arabic{section}.\arabic{subsection}}
+\renewcommand{\theequation}{S\arabic{equation}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\title{Online Resource 1\\
+Supplementary Information for\\
+\textit{Extrinsic Newton Method with Retractions\\
+for Zeros of Vector Fields on Regular Level-Set Submanifolds}}
+\author{Rodrigo Alberto Castro Mar\'in\thanks{Corresponding author. Email: \href{mailto:rodrigo.castrom@uv.cl}{rodrigo.castrom@uv.cl}.}
+\and Leslie San Mart\'in\thanks{Email: \href{mailto:l.sanmartindonoso1@uandresbello.edu}{l.sanmartindonoso1@uandresbello.edu}.}}
+\date{}
+\begin{document}
+\maketitle
+\begin{center}
+\small
+\textbf{Journal:} \textit{Calcolo}\\
+Institute of Mathematics, Universidad de Valpara\'iso, Valpara\'iso, Chile
+\end{center}
+
+\section*{Contents of Online Resource 1}
+This online resource complements the main article. It presents an example on
+the product torus $S^1\times S^1$ and a nonlinear field on
+$\operatorname{St}(3,2)$. It also contains the complete trajectories of
+residuals and cumulative times for the eight experiments, the moderate-precision
+timing protocol, the controls for the Riemannian exponential on
+$SL(2,\R)$, and the information required to reproduce the computations.
+
+In all comparisons, the same equation is used to compute the Newton
+direction, evaluated at the iterate of each variant. The differences arise
+exclusively from the update by means of the exponential map or the retraction
+under consideration.
+
+\section[Example on the product torus]{Example on the product torus $S^1\times S^1$}
+\label{sec:product_torus}
+% ============================================================
+
+Consider the product torus
+\begin{equation}\label{eq:product_torus}
+    \M
+    =
+    S^1\times S^1
+    =
+    \left\{
+        (x,y,z,w)\in\R^4:
+        x^2+y^2=1,\quad z^2+w^2=1
+    \right\}.
+\end{equation}
+The two constraints are grouped in the mapping
+\begin{equation}\label{eq:F_product_torus}
+    F(x,y,z,w)
+    =
+    \begin{pmatrix}
+        x^2+y^2-1\\
+        z^2+w^2-1
+    \end{pmatrix}.
+\end{equation}
+Its derivative is
+\begin{equation}\label{eq:DF_product_torus}
+    \D F(p)
+    =
+    \begin{pmatrix}
+        2x&2y&0&0\\
+        0&0&2z&2w
+    \end{pmatrix}.
+\end{equation}
+Since $(x,y)\neq(0,0)$ and $(z,w)\neq(0,0)$ on $\M$, the two rows of
+$\D F(p)$ are linearly independent. Therefore, $0$ is a regular value and
+$\M$ is a regular submanifold of dimension two.
+
+% ------------------------------------------------------------
+\subsection*{Tangent space, pseudoinverse, and projector}
+% ------------------------------------------------------------
+
+The tangent space is
+\begin{equation}\label{eq:tangent_product_torus}
+    \T_p\M
+    =
+    \left\{
+        (u_1,u_2,u_3,u_4)^\top:
+        xu_1+yu_2=0,\quad
+        zu_3+wu_4=0
+    \right\}.
+\end{equation}
+Since
+\[
+    \D F(p)\D F(p)^\top=4I_2,
+\]
+the Moore--Penrose pseudoinverse is
+\begin{equation}\label{eq:pseudoinverse_product_torus}
+    \D F(p)^\dagger
+    =
+    \frac12
+    \begin{pmatrix}
+        x&0\\
+        y&0\\
+        0&z\\
+        0&w
+    \end{pmatrix}.
+\end{equation}
+Therefore, the orthogonal projector onto $\T_p\M$ is
+\begin{equation}\label{eq:projector_product_torus}
+    \Proj_p
+    =
+    I_4-\D F(p)^\dagger\D F(p)
+    =
+    \begin{pmatrix}
+        y^2&-xy&0&0\\
+        -xy&x^2&0&0\\
+        0&0&w^2&-zw\\
+        0&0&-zw&z^2
+    \end{pmatrix}.
+\end{equation}
+
+A natural orthonormal basis of $\T_p\M$ is
+\begin{equation}\label{eq:basis_product_torus}
+    e_\theta(p)=(-y,x,0,0)^\top,
+    \qquad
+    e_\varphi(p)=(0,0,-w,z)^\top.
+\end{equation}
+We write
+\begin{equation}\label{eq:Z_product_torus}
+    Z_p
+    =
+    \begin{pmatrix}
+        -y&0\\
+        x&0\\
+        0&-w\\
+        0&z
+    \end{pmatrix}.
+\end{equation}
+Then
+\[
+    Z_p^\top Z_p=I_2,
+    \qquad
+    \Proj_p=Z_pZ_p^\top.
+\]
+
+% ------------------------------------------------------------
+\subsection*{Definition of the field}
+% ------------------------------------------------------------
+
+We define
+\begin{align}
+    f_1(y,w)
+    &=
+    y+\frac12w+y^2+\frac15yw,
+    \label{eq:f1_product_torus}\\
+    f_2(y,w)
+    &=
+    -\frac13y+w+w^2+\frac14yw.
+    \label{eq:f2_product_torus}
+\end{align}
+We consider the ambient field
+\begin{equation}\label{eq:field_product_torus}
+    \widetilde X(x,y,z,w)
+    =
+    f_1(y,w)
+    \begin{pmatrix}
+        -y\\x\\0\\0
+    \end{pmatrix}
+    +
+    f_2(y,w)
+    \begin{pmatrix}
+        0\\0\\-w\\z
+    \end{pmatrix}.
+\end{equation}
+In coordinates,
+\begin{equation}\label{eq:field_product_torus_components}
+    \widetilde X(x,y,z,w)
+    =
+    \begin{pmatrix}
+        -yf_1(y,w)\\
+        xf_1(y,w)\\
+        -wf_2(y,w)\\
+        zf_2(y,w)
+    \end{pmatrix}.
+\end{equation}
+
+Let us verify tangency. By \eqref{eq:DF_product_torus},
+\[
+\begin{aligned}
+    \D F(p)\widetilde X(p)
+    &=
+    \begin{pmatrix}
+        2x&2y&0&0\\
+        0&0&2z&2w
+    \end{pmatrix}
+    \begin{pmatrix}
+        -yf_1\\xf_1\\-wf_2\\zf_2
+    \end{pmatrix}\\
+    &=
+    \begin{pmatrix}
+        -2xyf_1+2xyf_1\\
+        -2zwf_2+2zwf_2
+    \end{pmatrix}\\
+    &=0.
+\end{aligned}
+\]
+Therefore,
+\[
+    X:=\widetilde X|_\M
+\]
+is a tangent vector field on $\M$.
+
+The point
+\begin{equation}\label{eq:zero_product_torus}
+    p_\ast=(1,0,1,0)^\top
+\end{equation}
+is a zero, since
+\[
+    f_1(0,0)=f_2(0,0)=0.
+\]
+
+% ------------------------------------------------------------
+\subsection*{Ambient Jacobian}
+% ------------------------------------------------------------
+
+The derivatives of the coefficients are
+\begin{align*}
+    \partial_yf_1
+    &=
+    1+2y+\frac15w,
+    &
+    \partial_wf_1
+    &=
+    \frac12+\frac15y,\\
+    \partial_yf_2
+    &=
+    -\frac13+\frac14w,
+    &
+    \partial_wf_2
+    &=
+    1+2w+\frac14y.
+\end{align*}
+For brevity, we write
+\[
+    f_{1y}=\partial_yf_1,\quad
+    f_{1w}=\partial_wf_1,\quad
+    f_{2y}=\partial_yf_2,\quad
+    f_{2w}=\partial_wf_2.
+\]
+The ambient Jacobian of \eqref{eq:field_product_torus_components} is
+\begin{equation}\label{eq:jacobian_product_torus}
+    \D\widetilde X(p)
+    =
+    \begin{pmatrix}
+        0&-f_1-yf_{1y}&0&-yf_{1w}\\
+        f_1&xf_{1y}&0&xf_{1w}\\
+        0&-wf_{2y}&0&-f_2-wf_{2w}\\
+        0&zf_{2y}&f_2&zf_{2w}
+    \end{pmatrix}.
+\end{equation}
+
+The extrinsic covariant derivative is
+\[
+    \nabla_\eta X(p)
+    =
+    \Proj_p\D\widetilde X(p)(\eta).
+\]
+
+% ------------------------------------------------------------
+\subsection*{Reduced Newton system}
+% ------------------------------------------------------------
+
+Let
+\[
+    \eta
+    =
+    \alpha e_\theta(p)+\beta e_\varphi(p)
+    =
+    Z_p
+    \begin{pmatrix}
+        \alpha\\\beta
+    \end{pmatrix}.
+\]
+The reduced matrix is
+\[
+    H(p)
+    =
+    Z_p^\top
+    \Proj_p\D\widetilde X(p)Z_p.
+\]
+A direct computation gives
+\begin{equation}\label{eq:H_product_torus}
+    H(p)
+    =
+    \begin{pmatrix}
+        x\left(1+2y+\frac15w\right)
+        &
+        z\left(\frac12+\frac15y\right)
+        \\[2mm]
+        x\left(-\frac13+\frac14w\right)
+        &
+        z\left(1+2w+\frac14y\right)
+    \end{pmatrix}.
+\end{equation}
+Likewise,
+\begin{equation}\label{eq:reduced_residual_product_torus}
+    Z_p^\top X(p)
+    =
+    \begin{pmatrix}
+        f_1(y,w)\\
+        f_2(y,w)
+    \end{pmatrix}.
+\end{equation}
+
+The Newton direction is obtained by solving the reduced system
+\begin{equation}\label{eq:newton_system_product_torus}
+    H(p)
+    \begin{pmatrix}
+        \alpha\\\beta
+    \end{pmatrix}
+    =
+    -
+    \begin{pmatrix}
+        f_1(y,w)\\
+        f_2(y,w)
+    \end{pmatrix}.
+\end{equation}
+If
+\[
+    \Delta(p)=\det H(p)\neq0,
+\]
+then
+\begin{align}
+    \alpha
+    &=
+    \frac{
+        -h_{22}f_1+h_{12}f_2
+    }{\Delta(p)},
+    \label{eq:alpha_product_torus}\\
+    \beta
+    &=
+    \frac{
+        h_{21}f_1-h_{11}f_2
+    }{\Delta(p)}.
+    \label{eq:beta_product_torus}
+\end{align}
+At the zero $p_\ast$,
+\begin{equation}\label{eq:H_star_product_torus}
+    H(p_\ast)
+    =
+    \begin{pmatrix}
+        1&\frac12\\[1mm]
+        -\frac13&1
+    \end{pmatrix},
+\end{equation}
+and
+\begin{equation}\label{eq:det_H_star_product_torus}
+    \det H(p_\ast)
+    =
+    1+\frac16
+    =
+    \frac76
+    \neq0.
+\end{equation}
+Therefore, $p_\ast$ is a regular zero. The inverse function theorem
+guarantees that it is the unique zero of the field in a sufficiently small
+neighborhood of $p_\ast$.
+
+% ------------------------------------------------------------
+\subsection*{Angular interpretation}
+% ------------------------------------------------------------
+
+We can parametrize the torus by
+\begin{equation}\label{eq:parametrization_product_torus}
+    p(\theta,\varphi)
+    =
+    \bigl(
+        \cos\theta,\sin\theta,
+        \cos\varphi,\sin\varphi
+    \bigr).
+\end{equation}
+Then
+\[
+    e_\theta=\frac{\partial p}{\partial\theta},
+    \qquad
+    e_\varphi=\frac{\partial p}{\partial\varphi}.
+\]
+The field is written as
+\[
+    X(p(\theta,\varphi))
+    =
+    f_1(\sin\theta,\sin\varphi)e_\theta
+    +
+    f_2(\sin\theta,\sin\varphi)e_\varphi.
+\]
+The matrix \eqref{eq:H_product_torus} is precisely the Jacobian
+\[
+    \frac{\partial(f_1,f_2)}
+         {\partial(\theta,\varphi)}.
+\]
+This equality is used in the code only as a verification. The
+direction is computed with the extrinsic formula
+\[
+    Z_p^\top \Proj_p\D\widetilde X(p)Z_p.
+\]
+
+% ------------------------------------------------------------
+\subsection*{Exponential map and retraction}
+% ------------------------------------------------------------
+
+Since the torus is the product of two unit circles, the exponential map
+acts by a rotation in each factor. For
+\[
+    \eta=\alpha e_\theta+\beta e_\varphi,
+\]
+we have
+\begin{equation}\label{eq:exp_product_torus}
+\begin{aligned}
+    \Exp_p(\eta)
+    =
+    \bigl(
+        &x\cos\alpha-y\sin\alpha,\,
+        y\cos\alpha+x\sin\alpha,\\
+        &z\cos\beta-w\sin\beta,\,
+        w\cos\beta+z\sin\beta
+    \bigr).
+\end{aligned}
+\end{equation}
+
+A closed-form retraction is obtained by normalizing each pair separately:
+\begin{equation}\label{eq:retraction_product_torus}
+\begin{aligned}
+    R_p(\eta)
+    =
+    \left(
+        \frac{x-\alpha y}{\sqrt{1+\alpha^2}},
+        \frac{y+\alpha x}{\sqrt{1+\alpha^2}},
+        \frac{z-\beta w}{\sqrt{1+\beta^2}},
+        \frac{w+\beta z}{\sqrt{1+\beta^2}}
+    \right).
+\end{aligned}
+\end{equation}
+This formula applies the blockwise homogeneous retraction to the two
+circular constraints. In particular,
+\[
+    R_p(0)=p,
+    \qquad
+    \D R_p(0)=I_{\T_p\M}.
+\]
+
+
+% ------------------------------------------------------------
+
+\subsection*{Updated numerical results}
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4.2pt}
+\begin{tabular}{rccrr}
+\toprule
+$k$ & $\|X(p_k)\|_{\Exp}$ & $\|X(p_k)\|_R$
+& $t_{\Exp,k}$ (s) & $t_{R,k}$ (s)\\
+\midrule
+0 & $5.87335\times10^{-1}$ & $5.87335\times10^{-1}$ & 0.000439 & 0.000431 \\
+1 & $3.135593\times10^{-1}$ & $2.353352\times10^{-1}$ & 0.012963 & 0.005805 \\
+2 & $3.721479\times10^{-2}$ & $2.590881\times10^{-2}$ & 0.024704 & 0.010646 \\
+3 & $7.835498\times10^{-4}$ & $4.2763\times10^{-4}$ & 0.035829 & 0.015520 \\
+4 & $4.656764\times10^{-7}$ & $1.298178\times10^{-7}$ & 0.047277 & 0.021596 \\
+5 & $1.427445\times10^{-13}$ & $1.161032\times10^{-14}$ & 0.058077 & 0.026513 \\
+6 & $1.489288\times10^{-26}$ & $9.508624\times10^{-29}$ & 0.068567 & 0.031778 \\
+7 & $1.497717\times10^{-52}$ & $6.264169\times10^{-57}$ & 0.077042 & 0.037412 \\
+8 & $1.607123\times10^{-104}$ & $2.755944\times10^{-113}$ & 0.086658 & 0.042781 \\
+9 & $1.76902\times10^{-208}$ & $5.279411\times10^{-226}$ & 0.095481 & 0.048186 \\
+10 & $2.217477\times10^{-416}$ & $1.952676\times10^{-451}$ & 0.102580 & 0.053230 \\
+11 & $3.395322\times10^{-832}$ & $2.655362\times10^{-902}$ & 0.110673 & 0.058621 \\
+\bottomrule
+\end{tabular}
+\caption{Product torus: complete trajectory of residuals and cumulative times. The times are cumulative medians of three alternating runs with 1200 decimal digits and tolerance $10^{-500}$.}
+\label{tab:supp_product_torus}
+\end{table}
+
+\section{The Stiefel manifold: costly exponential map and simple retraction}
+\label{subsec:stiefel}
+% ------------------------------------------------------------
+
+Consider the Stiefel manifold
+\[
+    \operatorname{St}(n,r)
+    =
+    \left\{
+        Y\in\R^{n\times r}:
+        Y^\top Y=I_r
+    \right\}.
+\]
+This manifold is the regular level set of the mapping
+\[
+    F(Y)=Y^\top Y-I_r,
+\]
+understood as taking values in the space
+$\operatorname{Sym}(r)$ of symmetric matrices. Its derivative is
+\begin{equation}\label{eq:DF_stiefel}
+    \D F(Y)(H)
+    =
+    Y^\top H+H^\top Y.
+\end{equation}
+This mapping is surjective. Indeed, if
+$S\in\operatorname{Sym}(r)$, by taking
+\[
+    H=\frac12YS
+\]
+we obtain
+\[
+    \D F(Y)(H)
+    =
+    \frac12S+\frac12S
+    =
+    S.
+\]
+Therefore, $0$ is a regular value of $F$.
+
+The tangent space is
+\begin{equation}\label{eq:tangent_stiefel}
+    \T_Y\operatorname{St}(n,r)
+    =
+    \left\{
+        \eta\in\R^{n\times r}:
+        Y^\top\eta+\eta^\top Y=0
+    \right\}.
+\end{equation}
+
+In this subsection, we use the Euclidean metric induced by the
+Frobenius inner product,
+\[
+    \langle U,V\rangle_F
+    =
+    \operatorname{tr}(U^\top V).
+\]
+The normal space is
+\[
+    N_Y\operatorname{St}(n,r)
+    =
+    \left\{
+        YS:
+        S\in\operatorname{Sym}(r)
+    \right\},
+\]
+and the orthogonal projector onto the tangent space is
+\begin{equation}\label{eq:projector_stiefel}
+    \Proj_Y(Z)
+    =
+    Z-Y\,\operatorname{sym}(Y^\top Z),
+\end{equation}
+where
+\[
+    \operatorname{sym}(B)
+    =
+    \frac12(B+B^\top).
+\]
+
+% ------------------------------------------------------------
+\subsection*{Riemannian exponential for the Euclidean metric}
+% ------------------------------------------------------------
+
+The Riemannian exponential of the induced Euclidean metric can be
+computed by means of a block formula. Let
+\[
+    \eta\in \T_Y\operatorname{St}(n,r),
+\]
+and define
+\[
+    A=Y^\top\eta,
+    \qquad
+    S=\eta^\top\eta.
+\]
+Since $\eta$ is tangent,
+\[
+    A^\top=-A.
+\]
+The Euclidean geodesic with initial conditions
+\[
+    \gamma(0)=Y,
+    \qquad
+    \dot\gamma(0)=\eta
+\]
+satisfies
+\begin{equation}\label{eq:euclidean_exp_stiefel}
+\begin{aligned}
+    \Exp^{E}_Y(\eta)
+    &=
+    \begin{bmatrix}
+        Y&\eta
+    \end{bmatrix}
+    \exp
+    \begin{pmatrix}
+        A&-S\\
+        I_r&A
+    \end{pmatrix}
+    \begin{pmatrix}
+        \exp(-A)\\
+        0
+    \end{pmatrix}.
+\end{aligned}
+\end{equation}
+This expression corresponds to the embedded, or Euclidean, metric and requires,
+in general, a matrix exponential of size $2r\times2r$, in addition to
+the exponential of the skew-symmetric matrix $A\in\R^{r\times r}$.
+
+In the case $\operatorname{St}(3,2)$, formula
+\eqref{eq:euclidean_exp_stiefel} requires computing one matrix exponential of
+size $4\times4$ and another of size $2\times2$.
+
+% ------------------------------------------------------------
+\subsection*{Polar retraction}
+% ------------------------------------------------------------
+
+A much simpler alternative is the polar retraction
+\begin{equation}\label{eq:polar_retraction_stiefel}
+    R_Y^{\mathrm{pol}}(\eta)
+    =
+    (Y+\eta)
+    \bigl(I_r+\eta^\top\eta\bigr)^{-1/2}.
+\end{equation}
+Indeed, using the tangency condition,
+\[
+\begin{aligned}
+    (Y+\eta)^\top(Y+\eta)
+    &=
+    Y^\top Y
+    +
+    Y^\top\eta
+    +
+    \eta^\top Y
+    +
+    \eta^\top\eta\\
+    &=
+    I_r+\eta^\top\eta.
+\end{aligned}
+\]
+Therefore,
+\[
+\begin{aligned}
+    \bigl(R_Y^{\mathrm{pol}}(\eta)\bigr)^\top
+    R_Y^{\mathrm{pol}}(\eta)
+    &=
+    \bigl(I_r+\eta^\top\eta\bigr)^{-1/2}
+    \bigl(I_r+\eta^\top\eta\bigr)
+    \bigl(I_r+\eta^\top\eta\bigr)^{-1/2}\\
+    &=I_r.
+\end{aligned}
+\]
+Thus,
+\[
+    R_Y^{\mathrm{pol}}(\eta)
+    \in
+    \operatorname{St}(n,r).
+\]
+Moreover,
+\[
+    R_Y^{\mathrm{pol}}(0)=Y,
+    \qquad
+    \D R_Y^{\mathrm{pol}}(0)(\eta)=\eta.
+\]
+Therefore, it is a retraction and, in particular, it satisfies the first-order
+assumptions used in the convergence theorems.
+
+Its geometric cost is concentrated in the inverse square root of an
+$r\times r$ matrix. For $\operatorname{St}(3,2)$, only the inverse square root
+of a symmetric positive-definite matrix of size $2\times2$ is required.
+
+% ------------------------------------------------------------
+\subsection*{A nonlinear and coupled field on $\operatorname{St}(3,2)$}
+% ------------------------------------------------------------
+
+From now on, consider
+\[
+    Y=
+    \begin{pmatrix}
+        y_{11}&y_{12}\\
+        y_{21}&y_{22}\\
+        y_{31}&y_{32}
+    \end{pmatrix}
+    \in\operatorname{St}(3,2).
+\]
+We first define three linear forms:
+\begin{align}
+    u_1(Y)
+    &=
+    y_{11}
+    +\frac25y_{22}
+    -\frac3{10}y_{31}
+    +\frac15y_{12},
+    \label{eq:u1_stiefel}\\
+    u_2(Y)
+    &=
+    y_{21}
+    -\frac15y_{12}
+    +\frac12y_{32}
+    +\frac1{10}y_{11},
+    \label{eq:u2_stiefel}\\
+    u_3(Y)
+    &=
+    y_{31}
+    +\frac3{10}y_{22}
+    -\frac25y_{21}
+    +\frac15y_{32}.
+    \label{eq:u3_stiefel}
+\end{align}
+From them, we construct the nonlinear functions
+\begin{align}
+    g_1(Y)
+    &=
+    u_1+u_2^2-1.6119,
+    \label{eq:g1_stiefel}\\
+    g_2(Y)
+    &=
+    u_2+u_1u_3-1.2468,
+    \label{eq:g2_stiefel}\\
+    g_3(Y)
+    &=
+    u_3+u_1^2+\frac12u_2u_3-1.6423.
+    \label{eq:g3_stiefel}
+\end{align}
+These expressions depend on the six entries of $Y$ and are coupled.
+The decimal constants are fixed as part of the definition of the problem;
+they are not adjusted after running the method. Their choice produces a
+nontrivial zero, away from the coordinate frames, and a regular reduced matrix.
+
+For
+\[
+    v=
+    \begin{pmatrix}
+        v_1\\v_2\\v_3
+    \end{pmatrix},
+\]
+denote by
+\[
+    \widehat v
+    =
+    \begin{pmatrix}
+        0&-v_3&v_2\\
+        v_3&0&-v_1\\
+        -v_2&v_1&0
+    \end{pmatrix}
+\]
+the associated skew-symmetric matrix. We define
+\begin{equation}\label{eq:field_stiefel}
+    X(Y)
+    =
+    \widehat{g(Y)}\,Y,
+    \qquad
+    g(Y)=
+    \begin{pmatrix}
+        g_1(Y)\\g_2(Y)\\g_3(Y)
+    \end{pmatrix}.
+\end{equation}
+
+The field is tangent. Indeed,
+\[
+\begin{aligned}
+    Y^\top X(Y)+X(Y)^\top Y
+    &=
+    Y^\top\widehat{g(Y)}Y
+    +
+    Y^\top\widehat{g(Y)}^\top Y\\
+    &=
+    Y^\top
+    \left(
+        \widehat{g(Y)}
+        -
+        \widehat{g(Y)}
+    \right)
+    Y\\
+    &=0.
+\end{aligned}
+\]
+
+Moreover,
+\[
+    X(Y)=0
+    \quad\Longleftrightarrow\quad
+    g(Y)=0.
+\]
+Indeed, if $\widehat{g(Y)}\neq0$, its null space in $\R^3$ has dimension
+one and cannot contain the two linearly independent columns of
+$Y\in\operatorname{St}(3,2)$.
+
+% ------------------------------------------------------------
+\subsection*{Ambient derivative and covariant derivative}
+% ------------------------------------------------------------
+
+Let
+\[
+    H=
+    \begin{pmatrix}
+        h_{11}&h_{12}\\
+        h_{21}&h_{22}\\
+        h_{31}&h_{32}
+    \end{pmatrix}.
+\]
+The derivatives of the linear forms are
+\begin{align*}
+    \D u_1(Y)(H)
+    &=
+    h_{11}
+    +\frac25h_{22}
+    -\frac3{10}h_{31}
+    +\frac15h_{12},\\
+    \D u_2(Y)(H)
+    &=
+    h_{21}
+    -\frac15h_{12}
+    +\frac12h_{32}
+    +\frac1{10}h_{11},\\
+    \D u_3(Y)(H)
+    &=
+    h_{31}
+    +\frac3{10}h_{22}
+    -\frac25h_{21}
+    +\frac15h_{32}.
+\end{align*}
+If we write
+\[
+    \D u(Y)(H)
+    =
+    \begin{pmatrix}
+        \delta u_1\\
+        \delta u_2\\
+        \delta u_3
+    \end{pmatrix},
+\]
+then
+\begin{equation}\label{eq:Dg_stiefel}
+    \D g(Y)(H)
+    =
+    \begin{pmatrix}
+        1&2u_2&0\\
+        u_3&1&u_1\\
+        2u_1&\frac12u_3&1+\frac12u_2
+    \end{pmatrix}
+    \D u(Y)(H).
+\end{equation}
+By the product rule,
+\begin{equation}\label{eq:ambient_DX_stiefel}
+    \D\widetilde X(Y)(H)
+    =
+    \widehat{\D g(Y)(H)}\,Y
+    +
+    \widehat{g(Y)}\,H.
+\end{equation}
+The covariant derivative for the induced Euclidean metric is
+\begin{equation}\label{eq:covariant_DX_stiefel}
+    \nabla_H X(Y)
+    =
+    \Proj_Y\left(
+        \widehat{\D g(Y)(H)}\,Y
+        +
+        \widehat{g(Y)}\,H
+    \right).
+\end{equation}
+
+% ------------------------------------------------------------
+\subsection*{Reduced $3\times3$ system}
+% ------------------------------------------------------------
+
+Consider the matrices
+\[
+    K_1=
+    \begin{pmatrix}
+        0&0&0\\
+        0&0&-1\\
+        0&1&0
+    \end{pmatrix},
+    \qquad
+    K_2=
+    \begin{pmatrix}
+        0&0&1\\
+        0&0&0\\
+        -1&0&0
+    \end{pmatrix},
+\]
+\[
+    K_3=
+    \begin{pmatrix}
+        0&-1&0\\
+        1&0&0\\
+        0&0&0
+    \end{pmatrix}.
+\]
+We define
+\begin{equation}\label{eq:tangent_basis_stiefel}
+    B_i(Y)=K_iY,
+    \qquad
+    i=1,2,3.
+\end{equation}
+Since $\operatorname{St}(3,2)$ has dimension three, these vectors form
+a global basis of $\T_Y\operatorname{St}(3,2)$.
+
+We write
+\[
+    \eta
+    =
+    \xi_1B_1(Y)
+    +
+    \xi_2B_2(Y)
+    +
+    \xi_3B_3(Y).
+\]
+The Newton equation reduces to the system
+\begin{equation}\label{eq:system_3x3_stiefel}
+    M(Y)
+    \begin{pmatrix}
+        \xi_1\\
+        \xi_2\\
+        \xi_3
+    \end{pmatrix}
+    =
+    -b(Y),
+\end{equation}
+where
+\[
+    M_{ij}(Y)
+    =
+    \left\langle
+        B_i(Y),
+        \nabla_{B_j(Y)}X(Y)
+    \right\rangle_F,
+\]
+and
+\[
+    b_i(Y)
+    =
+    \langle B_i(Y),X(Y)\rangle_F.
+\]
+Once \eqref{eq:system_3x3_stiefel} has been solved,
+\[
+    \eta
+    =
+    \sum_{j=1}^3\xi_jB_j(Y).
+\]
+
+% ------------------------------------------------------------
+
+\subsection*{Updated numerical results}
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4.2pt}
+\begin{tabular}{rccrr}
+\toprule
+$k$ & $\|X(p_k)\|_{\Exp}$ & $\|X(p_k)\|_R$
+& $t_{\Exp,k}$ (s) & $t_{R,k}$ (s)\\
+\midrule
+0 & $9.758255\times10^{-1}$ & $9.758255\times10^{-1}$ & 0.001169 & 0.001196 \\
+1 & $8.201328\times10^{-1}$ & $6.478493\times10^{-1}$ & 0.088819 & 0.024914 \\
+2 & $1.077263\times10^{-1}$ & $1.037519\times10^{-1}$ & 0.165888 & 0.047424 \\
+3 & $2.286715\times10^{-2}$ & $1.882023\times10^{-2}$ & 0.233804 & 0.072950 \\
+4 & $1.184656\times10^{-3}$ & $7.663722\times10^{-4}$ & 0.297837 & 0.094344 \\
+5 & $3.656274\times10^{-6}$ & $1.572548\times10^{-6}$ & 0.358700 & 0.115600 \\
+6 & $3.899457\times10^{-11}$ & $7.277254\times10^{-12}$ & 0.407913 & 0.137056 \\
+7 & $4.471085\times10^{-21}$ & $1.555223\times10^{-22}$ & 0.449970 & 0.158501 \\
+8 & $5.845408\times10^{-41}$ & $7.069257\times10^{-44}$ & 0.486054 & 0.180165 \\
+9 & $9.986523\times10^{-81}$ & $1.460687\times10^{-86}$ & 0.520960 & 0.207514 \\
+10 & $2.915642\times10^{-160}$ & $6.237787\times10^{-172}$ & 0.556403 & 0.229489 \\
+11 & $2.485343\times10^{-319}$ & $1.13757\times10^{-342}$ & 0.592360 & 0.250823 \\
+12 & $1.805863\times10^{-637}$ & $3.783271\times10^{-684}$ & 0.626350 & 0.271646 \\
+\bottomrule
+\end{tabular}
+\caption{Nonlinear Stiefel problem: complete trajectory of residuals and cumulative times. The times are cumulative medians of three alternating runs with 1200 decimal digits and tolerance $10^{-500}$.}
+\label{tab:supp_stiefel_nonlinear}
+\end{table}
+
+\section{Complete multiprecision trajectories}
+\label{sec:supp_trajectories}
+
+The multiprecision protocol uses 1200 decimal digits, tolerance
+$10^{-500}$, and three alternating repetitions of each variant. In each row,
+the residual and cumulative time belong to the same protocol. The times
+are the cumulative medians by iteration. If one variant terminates earlier,
+no subsequent iterations are invented; for this reason, dashes appear for the
+retraction in the example on $S^3$ after its one-step termination.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4.2pt}
+\begin{tabular}{rccrr}
+\toprule
+$k$ & $\|X(p_k)\|_{\Exp}$ & $\|X(p_k)\|_R$
+& $t_{\Exp,k}$ (s) & $t_{R,k}$ (s)\\
+\midrule
+0 & $7.874643\times10^{-1}$ & $7.874643\times10^{-1}$ & 0.000268 & 0.000256 \\
+1 & $1.434361\times10^{-1}$ & $1.436173\times10^{-1}$ & 0.006942 & 0.003726 \\
+2 & $1.267638\times10^{-2}$ & $1.267914\times10^{-2}$ & 0.013534 & 0.006721 \\
+3 & $1.524631\times10^{-4}$ & $1.524634\times10^{-4}$ & 0.019511 & 0.009878 \\
+4 & $2.323057\times10^{-8}$ & $2.323057\times10^{-8}$ & 0.025137 & 0.013068 \\
+5 & $5.396595\times10^{-16}$ & $5.396595\times10^{-16}$ & 0.030297 & 0.016241 \\
+6 & $2.912324\times10^{-31}$ & $2.912324\times10^{-31}$ & 0.034642 & 0.019385 \\
+7 & $8.481631\times10^{-62}$ & $8.481631\times10^{-62}$ & 0.038993 & 0.022638 \\
+8 & $7.193807\times10^{-123}$ & $7.193807\times10^{-123}$ & 0.043338 & 0.025694 \\
+9 & $5.175086\times10^{-245}$ & $5.175086\times10^{-245}$ & 0.047615 & 0.028676 \\
+10 & $2.678152\times10^{-489}$ & $2.678152\times10^{-489}$ & 0.051941 & 0.031653 \\
+11 & $7.172496\times10^{-978}$ & $7.172496\times10^{-978}$ & 0.057418 & 0.034571 \\
+\bottomrule
+\end{tabular}
+\caption{Cylinder: complete trajectory of residuals and cumulative times. The times are cumulative medians of three alternating runs with 1200 decimal digits and tolerance $10^{-500}$.}
+\label{tab:supp_cylinder}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4.2pt}
+\begin{tabular}{rccrr}
+\toprule
+$k$ & $\|X(p_k)\|_{\Exp}$ & $\|X(p_k)\|_R$
+& $t_{\Exp,k}$ (s) & $t_{R,k}$ (s)\\
+\midrule
+0 & $5.0\times10^{-1}$ & $5.0\times10^{-1}$ & 0.001096 & 0.000922 \\
+1 & $5.372561\times10^{-2}$ & $3.363705\times10^{-1202}$ & 0.016217 & 0.014422 \\
+2 & $5.182658\times10^{-5}$ & -- & 0.029973 & -- \\
+3 & $4.640197\times10^{-14}$ & -- & 0.043548 & -- \\
+4 & $3.330336\times10^{-41}$ & -- & 0.057234 & -- \\
+5 & $1.23124\times10^{-122}$ & -- & 0.071222 & -- \\
+6 & $6.221675\times10^{-367}$ & -- & 0.084759 & -- \\
+7 & $8.027875\times10^{-1100}$ & -- & 0.098664 & -- \\
+\bottomrule
+\end{tabular}
+\caption{$S^3$: complete trajectory of residuals and cumulative times. The times are cumulative medians of three alternating runs with 1200 decimal digits and tolerance $10^{-500}$.}
+\label{tab:supp_s3}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4.2pt}
+\begin{tabular}{rccrr}
+\toprule
+$k$ & $\|X(p_k)\|_{\Exp}$ & $\|X(p_k)\|_R$
+& $t_{\Exp,k}$ (s) & $t_{R,k}$ (s)\\
+\midrule
+0 & $5.484387\times10^{-1}$ & $5.484387\times10^{-1}$ & 0.000672 & 0.000626 \\
+1 & $3.607681\times10^{-1}$ & $3.256465\times10^{-1}$ & 2.021257 & 0.016090 \\
+2 & $2.326791\times10^{-2}$ & $3.606411\times10^{-2}$ & 2.977476 & 0.029715 \\
+3 & $4.350643\times10^{-4}$ & $3.564352\times10^{-4}$ & 3.207198 & 0.042812 \\
+4 & $3.951101\times10^{-8}$ & $2.632585\times10^{-8}$ & 3.399987 & 0.056178 \\
+5 & $4.043158\times10^{-16}$ & $1.476852\times10^{-16}$ & 3.598228 & 0.069326 \\
+6 & $3.034939\times10^{-32}$ & $4.713945\times10^{-33}$ & 3.790723 & 0.082565 \\
+7 & $1.551148\times10^{-64}$ & $4.778443\times10^{-66}$ & 4.006702 & 0.096186 \\
+8 & $4.170436\times10^{-129}$ & $4.861653\times10^{-132}$ & 4.198194 & 0.110084 \\
+9 & $3.053869\times10^{-258}$ & $5.01734\times10^{-264}$ & 4.394884 & 0.124258 \\
+10 & $1.636597\times10^{-516}$ & $5.364794\times10^{-528}$ & 4.586303 & 0.137583 \\
+\bottomrule
+\end{tabular}
+\caption{$SL(2,\R)$: Riemannian exponential and homogeneous retraction. The times are cumulative medians of three alternating runs with 1200 decimal digits and tolerance $10^{-500}$.}
+\label{tab:supp_sl2}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4.2pt}
+\begin{tabular}{rccrr}
+\toprule
+$k$ & $\|X(p_k)\|_{\Exp}$ & $\|X(p_k)\|_R$
+& $t_{\Exp,k}$ (s) & $t_{R,k}$ (s)\\
+\midrule
+0 & $2.606035\times10^{-1}$ & $2.606035\times10^{-1}$ & 0.001357 & 0.001476 \\
+1 & $1.762323\times10^{-2}$ & $1.28056\times10^{-2}$ & 0.016806 & 0.013220 \\
+2 & $5.149984\times10^{-6}$ & $1.537462\times10^{-6}$ & 0.031659 & 0.025334 \\
+3 & $1.419023\times10^{-16}$ & $3.006613\times10^{-18}$ & 0.045072 & 0.037162 \\
+4 & $3.218826\times10^{-48}$ & $2.446631\times10^{-53}$ & 0.058293 & 0.049224 \\
+5 & $3.986347\times10^{-143}$ & $1.38595\times10^{-158}$ & 0.071708 & 0.061453 \\
+6 & $7.883916\times10^{-428}$ & $2.588342\times10^{-474}$ & 0.084551 & 0.073689 \\
+7 & $4.119681\times10^{-1201}$ & $2.464168\times10^{-1201}$ & 0.098081 & 0.085713 \\
+\bottomrule
+\end{tabular}
+\caption{Wahba problem: complete trajectory of residuals and cumulative times. The times are cumulative medians of three alternating runs with 1200 decimal digits and tolerance $10^{-500}$.}
+\label{tab:supp_wahba}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4.2pt}
+\begin{tabular}{rccrr}
+\toprule
+$k$ & $\|X(p_k)\|_{\Exp}$ & $\|X(p_k)\|_R$
+& $t_{\Exp,k}$ (s) & $t_{R,k}$ (s)\\
+\midrule
+0 & $2.339125\times10^{0}$ & $2.339125\times10^{0}$ & 0.004200 & 0.003970 \\
+1 & $3.810634\times10^{-1}$ & $1.492113\times10^{-1}$ & 0.036781 & 0.030213 \\
+2 & $1.49713\times10^{-3}$ & $2.94527\times10^{-5}$ & 0.068347 & 0.060097 \\
+3 & $1.441875\times10^{-10}$ & $2.597738\times10^{-16}$ & 0.099895 & 0.085820 \\
+4 & $1.307331\times10^{-31}$ & $1.550253\times10^{-48}$ & 0.128240 & 0.110914 \\
+5 & $9.642509\times10^{-95}$ & $5.45052\times10^{-145}$ & 0.156681 & 0.136953 \\
+6 & $3.898301\times10^{-284}$ & $2.61254\times10^{-434}$ & 0.186891 & 0.163861 \\
+7 & $2.56216\times10^{-852}$ & $1.254982\times10^{-1201}$ & 0.215074 & 0.188965 \\
+\bottomrule
+\end{tabular}
+\caption{Toroidal von Mises model: complete trajectory of residuals and cumulative times. The times are cumulative medians of three alternating runs with 1200 decimal digits and tolerance $10^{-500}$.}
+\label{tab:supp_von_mises}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4.2pt}
+\begin{tabular}{rccrr}
+\toprule
+$k$ & $\|X(p_k)\|_{\Exp}$ & $\|X(p_k)\|_R$
+& $t_{\Exp,k}$ (s) & $t_{R,k}$ (s)\\
+\midrule
+0 & $4.719654\times10^{-1}$ & $4.719654\times10^{-1}$ & 0.002236 & 0.002561 \\
+1 & $5.353999\times10^{-2}$ & $4.625133\times10^{-2}$ & 0.086563 & 0.032679 \\
+2 & $5.624617\times10^{-4}$ & $4.930562\times10^{-4}$ & 0.160845 & 0.063338 \\
+3 & $4.173036\times10^{-8}$ & $2.588569\times10^{-8}$ & 0.222026 & 0.088974 \\
+4 & $3.18385\times10^{-16}$ & $1.457545\times10^{-16}$ & 0.269569 & 0.115542 \\
+5 & $1.33614\times10^{-32}$ & $2.260606\times10^{-33}$ & 0.317738 & 0.144748 \\
+6 & $3.264013\times10^{-65}$ & $1.11161\times10^{-66}$ & 0.357374 & 0.173028 \\
+7 & $1.404269\times10^{-130}$ & $1.314879\times10^{-133}$ & 0.398799 & 0.200872 \\
+8 & $3.605363\times10^{-261}$ & $3.760746\times10^{-267}$ & 0.439157 & 0.230718 \\
+9 & $1.713344\times10^{-522}$ & $1.504975\times10^{-534}$ & 0.479302 & 0.256425 \\
+\bottomrule
+\end{tabular}
+\caption{Brockett eigenproblem: complete trajectory of residuals and cumulative times. The times are cumulative medians of three alternating runs with 1200 decimal digits and tolerance $10^{-500}$.}
+\label{tab:supp_brockett}
+\end{table}
+
+\section{Timing summary and moderate-precision protocol}
+\label{sec:supp_timing_summary}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3.2pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lrrrrrrr}
+\toprule
+Problem & $k_\Exp$ & $k_R$ & $t_\Exp$ & MAD$_\Exp$ & $t_R$ & MAD$_R$ & Reduction\\
+\midrule
+Cylinder & 11 & 11 & 0.057418 & 0.000068 & 0.034571 & 0.000360 & 39.8\% \\
+Sphere $S^3$ & 7 & 1 & 0.098664 & 0.000530 & 0.014422 & 0.000166 & 85.4\% \\
+Product torus & 11 & 11 & 0.110673 & 0.003233 & 0.058621 & 0.001686 & 47.0\% \\
+Nonlinear $SL(2,\R)$ & 10 & 10 & 4.586303 & 0.093026 & 0.137583 & 0.003157 & 97.0\% \\
+Nonlinear Stiefel problem & 12 & 12 & 0.626350 & 0.003254 & 0.271646 & 0.006032 & 56.6\% \\
+Wahba on $S^3$ & 7 & 7 & 0.098081 & 0.003024 & 0.085713 & 0.001819 & 12.6\% \\
+Toroidal von Mises & 7 & 7 & 0.215074 & 0.003186 & 0.188965 & 0.011475 & 12.1\% \\
+Brockett on $\operatorname{St}(3,2)$ & 9 & 9 & 0.479302 & 0.013373 & 0.256425 & 0.010924 & 46.5\% \\
+\bottomrule
+\end{tabular}}
+\caption{Summary of the multiprecision protocol. Times are expressed in seconds.}
+\label{tab:supp_multiprecision_summary}
+\end{table}
+
+\Cref{tab:supp_multiprecision_summary} answers the question of how much it costs to
+reach the extreme tolerance used to study the asymptotic regime.
+It should not be interpreted as a universal benchmark: the cost of transcendental
+functions, matrix exponentials, and geodesic integration increases with the
+requested precision.
+
+As an additional control, a second protocol was run with 50 digits and
+tolerance $10^{-14}$. Each method was warmed up twice and measured over
+eleven repetitions, alternating the order of execution. The median and the
+median absolute deviation (MAD) of the total time are reported.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3.2pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lrrrrrrr}
+\toprule
+Problem & $k_\Exp$ & $k_R$ & $t_\Exp$ & MAD$_\Exp$ & $t_R$ & MAD$_R$ & Reduction\\
+\midrule
+Cylinder & 5 & 5 & 0.004506 & 0.000485 & 0.003922 & 0.000095 & 13.0\% \\
+Sphere $S^3$ & 4 & 1 & 0.010709 & 0.000462 & 0.002558 & 0.000058 & 76.1\% \\
+Product torus & 6 & 6 & 0.009887 & 0.000843 & 0.008421 & 0.000281 & 14.8\% \\
+Nonlinear $SL(2,\R)$ & 5 & 5 & 0.172084 & 0.005870 & 0.015709 & 0.000640 & 90.9\% \\
+Nonlinear Stiefel problem & 7 & 7 & 0.057641 & 0.000564 & 0.033332 & 0.000638 & 42.2\% \\
+Wahba on $S^3$ & 3 & 3 & 0.008871 & 0.000848 & 0.008168 & 0.000637 & 7.9\% \\
+Toroidal von Mises & 4 & 3 & 0.005742 & 0.000076 & 0.004185 & 0.000081 & 27.1\% \\
+Brockett on $\operatorname{St}(3,2)$ & 4 & 4 & 0.042311 & 0.001870 & 0.027628 & 0.001075 & 34.7\% \\
+\bottomrule
+\end{tabular}}
+\caption{Total times at moderate precision: 50 digits, tolerance $10^{-14}$,
+two warm-up runs, and eleven alternating repetitions.}
+\label{tab:supp_moderate_summary}
+\end{table}
+
+The clearest reductions in both protocols appear for $SL(2,\R)$ and in
+the Stiefel problems. In the low-cost experiments, the differences should be
+interpreted together with the MAD and not as a universal superiority.
+
+\section[Controls for the Riemannian exponential on SL(2,R)]{Controls for the Riemannian exponential on $SL(2,\R)$}
+\label{sec:supp_sl2_diagnostics}
+
+The Riemannian exponential is evaluated by integrating the geodesic equation of
+the induced Frobenius metric. The implementation uses a recurrent Taylor series
+and adapts the tolerance to the residual of the Newton step. For each geodesic,
+the truncation order, an a posteriori estimate based on the recent ratios of
+the coefficients, and controls of feasibility, tangency, the geodesic equation,
+and energy conservation are recorded.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{rccrcc}
+\toprule
+Step & Residual before the step & Requested tolerance & Series order
+& Tail estimate & Recent ratio\\
+\midrule
+0 & $5.4844\times10^{-1}$ & $1.0\times10^{-80}$ & 109 & $9.007\times10^{-81}$ & $1.96\times10^{-1}$ \\
+1 & $3.6077\times10^{-1}$ & $1.0\times10^{-80}$ & 76 & $3.078\times10^{-81}$ & $9.795\times10^{-2}$ \\
+2 & $2.3268\times10^{-2}$ & $1.0\times10^{-80}$ & 36 & $6.739\times10^{-81}$ & $6.723\times10^{-3}$ \\
+3 & $4.3506\times10^{-4}$ & $1.0\times10^{-80}$ & 33 & $2.855\times10^{-136}$ & $9.931\times10^{-5}$ \\
+4 & $3.9511\times10^{-8}$ & $1.0\times10^{-80}$ & 33 & $2.528\times10^{-271}$ & $7.773\times10^{-9}$ \\
+5 & $4.0432\times10^{-16}$ & $1.0\times10^{-80}$ & 33 & $1.492\times10^{-536}$ & $7.196\times10^{-17}$ \\
+6 & $3.0349\times10^{-32}$ & $2.795\times10^{-95}$ & 33 & $7.279\times10^{-1067}$ & $5.971\times10^{-33}$ \\
+7 & $1.5511\times10^{-64}$ & $3.732\times10^{-192}$ & 33 & $1.081\times10^{-2131}$ & $3.324\times10^{-65}$ \\
+8 & $4.1704\times10^{-129}$ & $7.253\times10^{-386}$ & 33 & $9.368\times10^{-4263}$ & $8.618\times10^{-130}$ \\
+9 & $3.0539\times10^{-258}$ & $1.0\times10^{-560}$ & 33 & $2.075\times10^{-8524}$ & $6.373\times10^{-259}$ \\
+\bottomrule
+\end{tabular}}
+\caption{Data for the a posteriori truncation criterion for the geodesics of
+$SL(2,\R)$. The tail estimate is not presented as a rigorous certification
+of the entire future series.}
+\label{tab:supp_sl2_truncation}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{rccccc}
+\toprule
+Step & Raw $\det$ defect & Stabilization & Tangency defect
+& Geodesic residual & Energy defect\\
+\midrule
+0 & $5.979\times10^{-82}$ & $4.997\times10^{-82}$ & $6.568\times10^{-80}$ & $1.687\times10^{-77}$ & $6.34\times10^{-80}$ \\
+1 & $2.843\times10^{-82}$ & $2.354\times10^{-82}$ & $2.188\times10^{-80}$ & $1.54\times10^{-78}$ & $2.773\times10^{-81}$ \\
+2 & $5.1\times10^{-83}$ & $4.217\times10^{-83}$ & $1.887\times10^{-81}$ & $5.889\times10^{-80}$ & $5.844\times10^{-84}$ \\
+3 & $4.275\times10^{-141}$ & $3.535\times10^{-141}$ & $1.454\times10^{-139}$ & $2.686\times10^{-137}$ & $1.624\times10^{-142}$ \\
+4 & $2.85\times10^{-279}$ & $2.357\times10^{-279}$ & $9.691\times10^{-278}$ & $2.155\times10^{-276}$ & $2.088\times10^{-286}$ \\
+5 & $1.663\times10^{-552}$ & $1.375\times10^{-552}$ & $5.655\times10^{-551}$ & $1.194\times10^{-549}$ & $1.187\times10^{-567}$ \\
+6 & $6.523\times10^{-1099}$ & $5.393\times10^{-1099}$ & $2.218\times10^{-1097}$ & $4.927\times10^{-1096}$ & $6.718\times10^{-1130}$ \\
+7 & $1.554\times10^{-1201}$ & $0$ & $8.852\times10^{-1266}$ & $1.096\times10^{-1330}$ & $0$ \\
+8 & $7.768\times10^{-1202}$ & $1.79\times10^{-1201}$ & $1.681\times10^{-1330}$ & $4.526\times10^{-1460}$ & $8.084\times10^{-1460}$ \\
+9 & $1.554\times10^{-1201}$ & $0$ & $8.084\times10^{-1460}$ & $4.835\times10^{-1718}$ & $8.412\times10^{-1718}$ \\
+\bottomrule
+\end{tabular}}
+\caption{Geometric and dynamical controls for the integration of the
+Riemannian exponential on $SL(2,\R)$.}
+\label{tab:supp_sl2_controls}
+\end{table}
+
+The final normalization of the determinant is used only to correct the
+rounding error of the integration. Its norm is recorded in
+\Cref{tab:supp_sl2_controls}. The code does not use the group exponential.
+
+\section{Implementation and reproducibility}
+\label{sec:supp_reproducibility}
+\begingroup\small
+
+The repository contains eight standalone experiment programs and the global
+result generator \path{src/generate_article_tables.py}. The generator accepts
+the option \path{--output-root} and creates, under the selected destination,
+the directories \path{multiprecision}, \path{moderate_precision}, and
+\path{diagnostics}. It also writes the file
+\path{execution_environment.json}.
+
+The reference execution archived in the repository was carried out with:
+\begin{itemize}[nosep,leftmargin=*]
+    \item Python: \texttt{3.13.5};
+    \item \texttt{mpmath}: \texttt{1.3.0};
+    \item platform: \nolinkurl{Linux-4.4.0-x86_64-with-glibc2.41};
+    \item timer: \nolinkurl{time.perf_counter};
+    \item UTC date: \nolinkurl{2026-07-16T00:18:43.319220+00:00}.
+\end{itemize}
+
+From the repository root, all numerical results are regenerated by
+\begin{verbatim}
+python src/generate_article_tables.py --output-root results_local
+\end{verbatim}
+This command writes a local regeneration to \path{results_local} and leaves
+the committed reference data in \path{results} unchanged. The exact numerical
+dependency is pinned in \path{requirements.txt}. Detailed execution instructions
+are provided in \path{docs/REPRODUCIBILITY.md}, and the two numerical protocols
+are documented in \path{docs/NUMERICAL_PROTOCOLS.md}. The committed reference
+files are stored in \path{results/multiprecision},
+\path{results/moderate_precision}, and \path{results/diagnostics}; the runtime
+metadata are stored in \path{results/execution_environment.json}. Repository
+integrity can be checked with \path{scripts/verify_repository.py}, while the
+SHA-256 manifest is available at \path{checksums/SHA256SUMS.txt}.
+
+The programs verify, depending on the problem, tangency of the direction,
+the residual of the reduced system, satisfaction of the constraints, coincidence
+of the final roots, and regularity of the zero. No number in the manuscript or
+Online Resource 1 is adjusted manually.
+\endgroup
+\end{document}
