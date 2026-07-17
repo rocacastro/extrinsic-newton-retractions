@@ -1,5 +1,7 @@
 # Extrinsic Newton methods with retractions
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21419026.svg)](https://doi.org/10.5281/zenodo.21419026)
+
 This repository contains the complete computational artifact and the English supplementary material accompanying the article
 
 > **Extrinsic Newton method with retractions for zeros of vector fields on regular level-set submanifolds**.
@@ -18,6 +20,17 @@ The main article is **not** included in this repository. The repository contains
 - **Leslie San Martín** — [l.sanmartindonoso1@uandresbello.edu](mailto:l.sanmartindonoso1@uandresbello.edu)
 
 Affiliation: Institute of Mathematics, Universidad de Valparaíso, Valparaíso, Chile.
+
+## Citation
+
+The archived release corresponding to version `v1.0.0` is available on Zenodo:
+
+> Rodrigo Alberto Castro Marín and Leslie San Martín.  
+> *Extrinsic Newton Method with Retractions for Zeros of Vector Fields on Regular Level-Set Submanifolds: Reproducibility Code and Supplementary Material*.  
+> Version 1.0.0, Zenodo, 2026.  
+> DOI: [10.5281/zenodo.21419026](https://doi.org/10.5281/zenodo.21419026)
+
+Citation metadata are also provided in the [`CITATION.cff`](CITATION.cff) file. GitHub users may select **Cite this repository** from the repository sidebar.
 
 ## Mathematical setting
 
